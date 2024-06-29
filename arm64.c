@@ -2594,6 +2594,12 @@ arm64_print_stackframe_entry(struct bt_info *bt, int level, struct arm64_stackfr
          * See, for example, "bl schedule" before ret_to_user().
          */
 	branch_pc = frame->pc - 4;
+	if (machdep->machspec->VA_BITS_ACTUAL > 0) {
+		ulong mask = ~((1UL << machdep->machspec->VA_BITS_ACTUAL) - 1);
+		if ((branch_pc & mask) != mask) {
+			branch_pc = (branch_pc & ~mask) | mask;
+		}
+	}
 
         name = closest_symbol(branch_pc);
         name_plus_offset = NULL;
