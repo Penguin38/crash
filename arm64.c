@@ -4663,8 +4663,8 @@ arm64_set_va_bits_by_tcr(void)
 {
 	ulong value;
 
-	if (arm64_get_vmcoreinfo(&value, "NUMBER(TCR_EL1_T1SZ)", NUM_HEX) ||
-		arm64_get_vmcoreinfo(&value, "NUMBER(tcr_el1_t1sz)", NUM_HEX)) {
+	if (arm64_get_vmcoreinfo(&value, "NUMBER(TCR_EL1_T1SZ)", NUM_DEC) ||
+		arm64_get_vmcoreinfo(&value, "NUMBER(tcr_el1_t1sz)", NUM_DEC)) {
 		/* See ARMv8 ARM for the description of
 		 * TCR_EL1.T1SZ and how it can be used
 		 * to calculate the vabits_actual
