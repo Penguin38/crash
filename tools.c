@@ -3370,6 +3370,7 @@ cmd_list(void)
 			break;
 
 		case 'r':
+			ld->flags |= LIST_HEAD_FORMAT;
 			ld->flags |= LIST_HEAD_REVERSE;
 			break;
 
@@ -6717,9 +6718,13 @@ swap64(uint64_t val, int swap)
 ulong *
 get_cpumask_buf(void)
 {
-	int cpulen;
-	if ((cpulen = STRUCT_SIZE("cpumask_t")) < 0)
-		cpulen = DIV_ROUND_UP(kt->cpus, BITS_PER_LONG) * sizeof(ulong);
+	int cpulen, len_cpumask;
+
+	cpulen = DIV_ROUND_UP(kt->cpus, BITS_PER_LONG) * sizeof(ulong);
+	len_cpumask = STRUCT_SIZE("cpumask_t");
+	if (len_cpumask > 0)
+		cpulen = len_cpumask > cpulen ? cpulen : len_cpumask;
+
 	return (ulong *)GETBUF(cpulen);
 }
 
